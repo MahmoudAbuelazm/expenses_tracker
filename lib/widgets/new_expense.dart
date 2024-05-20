@@ -2,7 +2,8 @@ import 'package:expense_tracker/models/expense.dart';
 import 'package:flutter/material.dart';
 
 class NewExpense extends StatefulWidget {
-  const NewExpense({super.key});
+  const NewExpense({super.key, required this.addExpense});
+  final void Function(ExpenseModel) addExpense;
 
   @override
   State<NewExpense> createState() => _NewExpenseState();
@@ -35,10 +36,41 @@ class _NewExpenseState extends State<NewExpense> {
     super.dispose();
   }
 
+  void _submitExpenseData() {
+    final enteredAmount = double.parse(amountController.text);
+    final amountIsInValid = enteredAmount <= 0;
+    if (titleController.text.trim().isEmpty ||
+        amountIsInValid ||
+        selectedDate == null ||
+        selectedCategory == null) {
+      showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+                title: const Text('Inavlid Input'),
+                content: const Text(
+                    'Please make sure a valid title , amount ,date and category is entered.'),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pop(ctx);
+                      },
+                      child: const Text('Okay'))
+                ],
+              ));
+      return;
+    }
+    widget.addExpense(ExpenseModel(
+        title: titleController.text,
+        amount: enteredAmount,
+        date: selectedDate!,
+        category: selectedCategory!));
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.fromLTRB(16, 48, 16, 16),
       child: Column(
         children: [
           Expanded(
@@ -102,7 +134,8 @@ class _NewExpenseState extends State<NewExpense> {
                   },
                   child: const Text('Cancel')),
               ElevatedButton(
-                  onPressed: () {}, child: const Text('Save Expense'))
+                  onPressed: _submitExpenseData,
+                  child: const Text('Save Expense'))
             ],
           )
         ],
