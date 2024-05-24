@@ -1,5 +1,6 @@
 import 'package:expense_tracker/models/expense.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class NewExpense extends StatefulWidget {
   const NewExpense({super.key, required this.addExpense});
@@ -37,8 +38,7 @@ class _NewExpenseState extends State<NewExpense> {
   }
 
   void _submitExpenseData() {
-    final enteredAmount = double.parse(amountController.text);
-    final amountIsInValid = enteredAmount <= 0;
+    final amountIsInValid = amountController.text.isEmpty;
     if (titleController.text.trim().isEmpty ||
         amountIsInValid ||
         selectedDate == null ||
@@ -59,6 +59,8 @@ class _NewExpenseState extends State<NewExpense> {
               ));
       return;
     }
+
+    final enteredAmount = double.parse(amountController.text);
     widget.addExpense(ExpenseModel(
         title: titleController.text,
         amount: enteredAmount,
@@ -88,7 +90,6 @@ class _NewExpenseState extends State<NewExpense> {
                           controller: titleController,
                           maxLength: 50,
                           decoration: const InputDecoration(
-                            prefixText: '\$',
                             label: Text('Title'),
                           ),
                         ),
@@ -96,8 +97,12 @@ class _NewExpenseState extends State<NewExpense> {
                       const SizedBox(width: 16),
                       Expanded(
                         child: TextField(
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
                           controller: amountController,
                           decoration: const InputDecoration(
+                            prefixText: '\$',
                             label: Text('Amount'),
                           ),
                           keyboardType: TextInputType.number,
@@ -110,7 +115,6 @@ class _NewExpenseState extends State<NewExpense> {
                     controller: titleController,
                     maxLength: 50,
                     decoration: const InputDecoration(
-                      prefixText: '\$',
                       label: Text('Title'),
                     ),
                   ),
@@ -155,14 +159,18 @@ class _NewExpenseState extends State<NewExpense> {
                     children: [
                       Expanded(
                         child: TextField(
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
                           controller: amountController,
                           decoration: const InputDecoration(
+                            prefixText: '\$',
                             label: Text('Amount'),
                           ),
                           keyboardType: TextInputType.number,
                         ),
                       ),
-                      const SizedBox(width: 16),
+                      const SizedBox(width: 8),
                       Expanded(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
@@ -200,6 +208,11 @@ class _NewExpenseState extends State<NewExpense> {
                   Row(
                     children: [
                       DropdownButton(
+                          elevation: 20,
+                          focusColor:
+                              Theme.of(context).colorScheme.primaryContainer,
+                          dropdownColor:
+                              Theme.of(context).colorScheme.primaryContainer,
                           value: selectedCategory,
                           items: Category.values
                               .map(

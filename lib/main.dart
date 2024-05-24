@@ -2,14 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'expenses.dart';
 
-var kColorScheme = ColorScheme.fromSeed(seedColor: Colors.blue.shade300);
+var kColorScheme = ColorScheme.fromSeed(seedColor: Colors.blue.shade600);
 var kDarkColorScheme = ColorScheme.fromSeed(
     seedColor: Colors.blue.shade900, brightness: Brightness.dark);
 void main() {
-  // WidgetsFlutterBinding.ensureInitialized();
-  // SystemChrome.setPreferredOrientations(
-  //   [DeviceOrientation.portraitUp],
-  // ).then((fn) {
   runApp(const MyApp());
 }
 
@@ -19,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      darkTheme: ThemeData().copyWith(
+      darkTheme: ThemeData.dark().copyWith(
         colorScheme: kDarkColorScheme,
         cardTheme: const CardTheme().copyWith(
             color: kDarkColorScheme.secondaryContainer,
@@ -31,11 +27,10 @@ class MyApp extends StatelessWidget {
         ),
       ),
       debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark().copyWith(
+      theme: ThemeData.light().copyWith(
         colorScheme: kColorScheme,
         appBarTheme: const AppBarTheme().copyWith(
-          backgroundColor: kColorScheme.onPrimaryContainer,
-          foregroundColor: kColorScheme.primaryContainer,
+          backgroundColor: kColorScheme.secondaryContainer,
         ),
         cardTheme: const CardTheme().copyWith(
             color: kColorScheme.secondaryContainer,
@@ -51,7 +46,7 @@ class MyApp extends StatelessWidget {
                   fontSize: 16),
             ),
       ),
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.dark,
       home: const Expenses(),
     );
   }
