@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'expenses.dart';
 
@@ -6,6 +7,10 @@ var kColorScheme = ColorScheme.fromSeed(seedColor: Colors.blue.shade300);
 var kDarkColorScheme = ColorScheme.fromSeed(
     seedColor: Colors.blue.shade900, brightness: Brightness.dark);
 void main() {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // SystemChrome.setPreferredOrientations(
+  //   [DeviceOrientation.portraitUp],
+  // ).then((fn) {
   runApp(const MyApp());
 }
 
