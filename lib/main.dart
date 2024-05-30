@@ -6,6 +6,7 @@ var kColorScheme = ColorScheme.fromSeed(seedColor: Colors.blue.shade600);
 var kDarkColorScheme = ColorScheme.fromSeed(
     seedColor: Colors.blue.shade900, brightness: Brightness.dark);
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -46,7 +47,7 @@ class MyApp extends StatelessWidget {
                   fontSize: 16),
             ),
       ),
-      themeMode: ThemeMode.dark,
+      themeMode: ThemeMode.system,
       home: const Expenses(),
     );
   }
